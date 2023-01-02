@@ -7,10 +7,11 @@ import {
   Delete,
   Param,
   Body,
+  Put,
 } from '@nestjs/common';
 import { Types } from 'mongoose';
 import { JwtGuard } from '../auth/guard/jwt.guard';
-import { CreateEventDto } from './dtos/events.dtos';
+import { CreateEventDto, UpdateEventDto } from './dtos/events.dtos';
 import { EventsService } from './events.service';
 
 @Controller('/events')
@@ -35,6 +36,19 @@ export class EventsController {
     return this.eventsService.delete(
       new Types.ObjectId(req.user.id),
       new Types.ObjectId(id),
+    );
+  }
+
+  @UseGuards(JwtGuard)
+  @Put('/update/:id')
+  async update(
+    @Request() req,
+    @Param('id') id: string,
+    @Body() dto: UpdateEventDto,
+  ) {
+    return this.eventsService.update(
+      { ...dto, id },
+      new Types.ObjectId(req.user.id),
     );
   }
 }
