@@ -6,15 +6,12 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { EventDocument } from 'src/schemas/event.schema';
-import { User, UserDocument } from 'src/schemas/user.schema';
+import { Event, EventDocument } from 'src/schemas/event.schema';
 import { CreateEventDto, UpdateEventDto } from './dtos/events.dtos';
 
 @Injectable()
 export class EventsService {
   constructor(
-    @InjectModel(User.name)
-    private readonly userModel: Model<UserDocument>,
     @InjectModel(Event.name)
     private readonly eventModel: Model<EventDocument>,
   ) {}
